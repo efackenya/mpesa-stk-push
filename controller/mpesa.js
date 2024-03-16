@@ -45,10 +45,11 @@ const makeStkPushRequest = expressAsyncHandler(async (req, res) => {
     const paymentVerificationResponse = await paymentVerification(
       CheckoutRequestID
     );
-    if (!paymentVerificationResponse) {
+    if (!paymentVerificationResponse || !paymentVerificationResponse.success) {
       res.status(400).json({
         message: "There was an error completing your payment request",
       });
+      // DB LOGIC
     }
     if (paymentVerificationResponse.success) {
       // DB Logic
@@ -75,6 +76,7 @@ const stkCallBackUrl = expressAsyncHandler(async (req, res) => {
     console.log("PhoneNumber Paying", PhoneNumber);
     console.log("Transaction Date", TransactionDate);
     console.log("Mpesa Receipt", MpesaReceiptNumber);
+    // Transaction table update
   } catch (error) {
     console.log(`Error in Callback Function :${error}`);
   }
