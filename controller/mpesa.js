@@ -4,6 +4,7 @@ const {
   getAcessToken,
   getMpesaPassword,
   paymentVerification,
+  reduceMpesaMetadata,
 } = require("../utils/mpesaUtil");
 const moment = require("moment");
 
@@ -68,9 +69,12 @@ const stkCallBackUrl = expressAsyncHandler(async (req, res) => {
     console.log(req.body.Body);
     console.log("################### MPESA CALLBACK ###############");
     const mpesaDumpedData = req.body.Body.stkCallback.CallbackMetadata.Item;
-    console.log("################### DUMPED MPESA CALLBACK ###############");
-    console.log(mpesaDumpedData);
-    console.log("################### DUMPED MPESA CALLBACK ###############");
+    const { Amount, PhoneNumber, MpesaReceiptNumber, TransactionDate } =
+      reduceMpesaMetadata(mpesaDumpedData);
+    console.log("Amount Paid", Amount);
+    console.log("PhoneNumber Paying", PhoneNumber);
+    console.log("Transaction Date", TransactionDate);
+    console.log("Mpesa Receipt", MpesaReceiptNumber);
   } catch (error) {
     console.log(`Error in Callback Function :${error}`);
   }

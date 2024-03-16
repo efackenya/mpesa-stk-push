@@ -14,6 +14,13 @@ function getMpesaPassword(shortCode, passKey, timestamp) {
   return password;
 }
 
+const reduceMpesaMetadata = (metadata) =>
+  metadata?.reduce((result, entry) => {
+    const { Name, Value } = entry;
+    result[Name] = Value;
+    return result;
+  }, {});
+
 const paymentVerification = async (CheckoutRequestID) => {
   console.log("This is getting exececuted....");
   while (true) {
@@ -74,4 +81,9 @@ const getAcessToken = async () => {
   }
 };
 
-module.exports = { getAcessToken, getMpesaPassword, paymentVerification };
+module.exports = {
+  getAcessToken,
+  getMpesaPassword,
+  paymentVerification,
+  reduceMpesaMetadata,
+};
