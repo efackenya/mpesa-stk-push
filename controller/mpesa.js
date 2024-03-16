@@ -29,7 +29,7 @@ const makeStkPushRequest = expressAsyncHandler(async (req, res) => {
         PartyA: phoneNumber,
         PartyB: process.env.SHORT_CODE,
         PhoneNumber: phoneNumber,
-        CallBackURL: "https://56ca-102-215-33-203.ngrok-free.ap",
+        CallBackURL: `${process.env.APP_DOMAIN}/mpesa/stk-push/callback`,
         AccountReference: "Test",
         TransactionDesc: "Test",
       },
@@ -61,4 +61,19 @@ const makeStkPushRequest = expressAsyncHandler(async (req, res) => {
   }
 });
 
-module.exports = { makeStkPushRequest };
+const stkCallBackUrl = expressAsyncHandler(async (req, res) => {
+  try {
+    console.log("This callback function was called.....");
+    console.log("################### MPESA CALLBACK ###############");
+    console.log(req.body.Body);
+    console.log("################### MPESA CALLBACK ###############");
+    const mpesaDumpedData = req.body.Body.stkCallback.CallbackMetadata.Item;
+    console.log("################### DUMPED MPESA CALLBACK ###############");
+    console.log(mpesaDumpedData);
+    console.log("################### DUMPED MPESA CALLBACK ###############");
+  } catch (error) {
+    console.log(`Error in Callback Function :${error}`);
+  }
+});
+
+module.exports = { makeStkPushRequest, stkCallBackUrl };
