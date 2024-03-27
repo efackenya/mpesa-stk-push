@@ -77,6 +77,15 @@ const stkCallBackUrl = expressAsyncHandler(async (req, res) => {
     console.log("Transaction Date", TransactionDate);
     console.log("Mpesa Receipt", MpesaReceiptNumber);
     // Transaction table update
+    return res.status(200).json({
+      message: `Payment Successful! Your transaction has been recorded`,
+      data: {
+        Amount,
+        PhoneNumber,
+        TransactionDate,
+        MpesaReceiptNumber,
+      },
+    });
   } catch (error) {
     console.log(`Error in Callback Function :${error}`);
   }

@@ -16,7 +16,7 @@ app.get("/", (req, res) => {
 
 app.use("/mpesa", mpesa);
 
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 6000;
 app.listen(PORT, async () => {
   console.log(`Server is running http://localhost:${PORT}`);
 });
